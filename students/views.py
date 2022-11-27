@@ -29,22 +29,23 @@ def get_students(request, args):
     for key, value in args.items():
         st = st.filter(**{key: value})
 
-    html_form = '''
-    <form method='get'>
-        <label for="fname">First name:</label><br>
-        <input type="text" id="fname" name="first_name" placeholder="Bob"><br>
-        <label for="fname">Last name:</label><br>
-        <input type="text" id="lname" name="last_name" placeholder="Dilan"><br>
-        <label for="lname">Age:</label><br>
-        <input type="number" id="age_id" name="age" placeholder="33"><br><br>
-        <input type="submit" value="Submit">
-    </form> 
-'''
+#     html_form = '''
+#     <form method='get'>
+#         <label for="fname">First name:</label><br>
+#         <input type="text" id="fname" name="first_name" placeholder="Bob"><br>
+#         <label for="fname">Last name:</label><br>
+#         <input type="text" id="lname" name="last_name" placeholder="Dilan"><br>
+#         <label for="lname">Age:</label><br>
+#         <input type="number" id="age_id" name="age" placeholder="33"><br><br>
+#         <input type="submit" value="Submit">
+#     </form> 
+# '''
 
-    http = qs2html(st)
-    response = html_form + http
+#     http = qs2html(st)
+#     response = html_form + http
 
-    return HttpResponse(response)
+    # return HttpResponse(response)
+    return render(request, 'students/list.html', {'title': 'List of student', 'students': st})
 
 
 @csrf_exempt
@@ -61,7 +62,28 @@ def create_students(request):
             <table>
                 {form.as_table()}
             </table>
-            <input type="submit" value="Submit">
+            <input type="submit" value="Create ">
+        </form> 
+    '''
+
+    return HttpResponse(html_form)
+
+@csrf_exempt
+def update_students(request, pk):
+    student = Student.objects.get(pk=pk)
+    if request.method == 'GET':
+        form = StudentCreateForms(instance=student)
+    else:
+        form = StudentCreateForms(request.POST, instance=student)
+        if form.is_valid():
+            form.save()
+            return HttpResponseRedirect('/st/')
+    html_form = f'''
+        <form method='post'>
+            <table>
+                {form.as_table()}
+            </table>
+            <input type="submit" value="Update">
         </form> 
     '''
 

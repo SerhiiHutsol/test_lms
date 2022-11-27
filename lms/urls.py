@@ -18,10 +18,12 @@ from django.urls import path
 from students.views import get_students
 from students.views import index
 from students.views import create_students
+from students.views import update_students
 
 urlpatterns = [
     path('admin/', admin.site.urls),
     path('', index),
-    path('st/', get_students),
-    path('st/create/', create_students),
+    path('st/', get_students),                  #read
+    path('st/create/', create_students),        #create
+    path('st/update/<int:pk>/', update_students),        #update
 ]

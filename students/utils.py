@@ -5,4 +5,4 @@ def qs2html(qs):
             lst.append(str(line))
     else:
         lst.append('QuerySet is empty!')
-    return '<br>'.join(lst)
+    return lst

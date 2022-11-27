@@ -7,7 +7,7 @@ class StudentCreateForms(forms.ModelForm):
 
     class Meta:
         model = Student
-        fields = ['first_name', 'last_name', 'age', 'birthday']
+        fields = ['first_name', 'last_name', 'phone_number', 'birthday']
         widgets = {'birthday': forms.DateInput(attrs={'type': 'date'})}
 
     # cleaned_date
